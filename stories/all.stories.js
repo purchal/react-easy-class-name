@@ -1,18 +1,19 @@
 import React from "react";
 import { action } from "@storybook/addon-actions";
-import classy from "../src/index";
+import className, { asString } from "../src/index";
 
 export default {
   title: "elements"
 };
 
-const RedText = classy.div`red-text`;
-const Padding = classy.div`with-padding`;
-const BlueBackground = classy(Padding)`blue-background`;
-const Button = classy.button`
+const RedText = className.div`red-text`;
+const Padding = className.div`with-padding`;
+const BlueBackground = className(Padding)`blue-background`;
+const Button = className.button`
   button
   ${({ disabled }) => (disabled ? "button-disabled" : "button-active")}
 `;
+const str = asString`one ${({ skip }) => (skip ? "two" : "SKIP THIS")}`;
 
 export const all = () => (
   <div>
@@ -21,8 +22,9 @@ export const all = () => (
     <BlueBackground>Blue background</BlueBackground>
     <Button>Active button</Button>
     <Button disabled>Disabled button</Button>
-    <Button disabled classyProps={{ disabled: false }}>
+    <Button disabled classNameProps={{ disabled: false }}>
       Disabled button with active class
     </Button>
+    <div>{str({ skip: true })}</div>
   </div>
 );

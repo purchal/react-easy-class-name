@@ -1,10 +1,10 @@
 import React from "react";
 import domElements from "./domElements";
 
-const classyString = (str, ...exprs) => {
-  return ({ classyProps = {}, ...props }) => {
+const asString = (str, ...exprs) => {
+  return ({ classNameProps = {}, ...props }) => {
     const interpolated = exprs.map(ex =>
-      typeof ex === "function" ? ex({ ...props, ...classyProps }) : ex
+      typeof ex === "function" ? ex({ ...props, ...classNameProps }) : ex
     );
     const classNames = [...str, ...interpolated];
     if (props.className) classNames.push(props.className);
@@ -12,13 +12,15 @@ const classyString = (str, ...exprs) => {
   };
 };
 
-const classy = Tag => (str, exprs) => {
-  const classNameString = classyString(str, exprs);
-  return props => <Tag {...props} className={classNameString(props)} />;
+const className = Tag => (str, exprs) => {
+  const classNameString = asString(str, exprs);
+  return ({ classNameProps, ...props }) => (
+    <Tag {...props} className={classNameString(props)} />
+  );
 };
 
 domElements.forEach(el => {
-  classy[el] = classy(el);
+  className[el] = className(el);
 });
 
-export default classy;
+export { className as default, asString };
