@@ -14,6 +14,9 @@ const Button = className.button`
   ${({ disabled }) => (disabled ? "button-disabled" : "button-active")}
 `;
 const str = asString`one ${({ skip }) => (skip ? "two" : "SKIP THIS")}`;
+const RandomProp = className.div`
+  ${({ randomProp }) => (randomProp ? "red-text" : "blue-text")}
+`;
 
 export const all = () => (
   <div>
@@ -22,9 +25,12 @@ export const all = () => (
     <BlueBackground>Blue background</BlueBackground>
     <Button>Active button</Button>
     <Button disabled>Disabled button</Button>
-    <Button disabled classNameProps={{ disabled: false }}>
+    <Button disabled shallowProps={{ disabled: false }}>
       Disabled button with active class
     </Button>
+    <RandomProp shallowProps={{ randomProp: true }}>
+      Random prop (red text)
+    </RandomProp>
     <div>{str({ skip: true })}</div>
   </div>
 );

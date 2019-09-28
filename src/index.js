@@ -2,9 +2,9 @@ import React from "react";
 import domElements from "./domElements";
 
 const asString = (str, ...exprs) => {
-  return ({ classNameProps = {}, ...props }) => {
+  return ({ shallowProps, ...props }) => {
     const interpolated = exprs.map(ex =>
-      typeof ex === "function" ? ex({ ...props, ...classNameProps }) : ex
+      typeof ex === "function" ? ex({ ...props, ...shallowProps }) : ex
     );
     const classNames = [...str, ...interpolated];
     if (props.className) classNames.push(props.className);
@@ -14,8 +14,8 @@ const asString = (str, ...exprs) => {
 
 const className = Tag => (str, exprs) => {
   const classNameString = asString(str, exprs);
-  return ({ classNameProps, ...props }) => (
-    <Tag {...props} className={classNameString(props)} />
+  return ({ shallowProps, ...props }) => (
+    <Tag {...props} className={classNameString({ shallowProps, ...props })} />
   );
 };
 
