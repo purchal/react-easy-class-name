@@ -126,18 +126,17 @@ function _nonIterableSpread() {
 var domElements = ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "data", "datalist", "dd", "del", "details", "dfn", "dialog", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "marquee", "menu", "menuitem", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr", // SVG
 "circle", "clipPath", "defs", "ellipse", "foreignObject", "g", "image", "line", "linearGradient", "mask", "path", "pattern", "polygon", "polyline", "radialGradient", "rect", "stop", "svg", "text", "tspan"];
 
-var classyString = function classyString(str) {
+var asString = function asString(str) {
   for (var _len = arguments.length, exprs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     exprs[_key - 1] = arguments[_key];
   }
 
   return function (_ref) {
-    var _ref$classyProps = _ref.classyProps,
-        classyProps = _ref$classyProps === void 0 ? {} : _ref$classyProps,
-        props = _objectWithoutProperties(_ref, ["classyProps"]);
+    var shallowProps = _ref.shallowProps,
+        props = _objectWithoutProperties(_ref, ["shallowProps"]);
 
     var interpolated = exprs.map(function (ex) {
-      return typeof ex === "function" ? ex(_objectSpread2({}, props, {}, classyProps)) : ex;
+      return typeof ex === "function" ? ex(_objectSpread2({}, props, {}, shallowProps)) : ex;
     });
     var classNames = [].concat(_toConsumableArray(str), _toConsumableArray(interpolated));
     if (props.className) classNames.push(props.className);
@@ -145,19 +144,25 @@ var classyString = function classyString(str) {
   };
 };
 
-var classy = function classy(Tag) {
+var className = function className(Tag) {
   return function (str, exprs) {
-    var classNameString = classyString(str, exprs);
-    return function (props) {
+    var classNameString = asString(str, exprs);
+    return function (_ref2) {
+      var shallowProps = _ref2.shallowProps,
+          props = _objectWithoutProperties(_ref2, ["shallowProps"]);
+
       return React.createElement(Tag, _extends({}, props, {
-        className: classNameString(props)
+        className: classNameString(_objectSpread2({
+          shallowProps: shallowProps
+        }, props))
       }));
     };
   };
 };
 
 domElements.forEach(function (el) {
-  classy[el] = classy(el);
+  className[el] = className(el);
 });
 
-export default classy;
+export default className;
+export { asString };
