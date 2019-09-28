@@ -1,0 +1,31 @@
+body {
+  font-family: sans-serif;
+}
+
+.red-text {
+  color: rgb(221, 98, 125);
+}
+
+.gray-background {
+  background-color: rgb(228, 225, 230);
+}
+
+.blue-background {
+  background-color: rgb(129, 180, 247);
+}
+
+.with-padding {
+  padding: 5px;
+}
+
+.button {
+  background-color: green;
+}
+
+.button-disabled {
+  color: red;
+}
+
+.button-active {
+  color: white;
+}
