@@ -62,4 +62,13 @@ describe("className", () => {
       "base with-object-key with-2nd-obj-key"
     );
   });
+
+  describe("with object", () => {
+    const Div = className.div({ first: "1st", second: "2nd", third: "3rd" });
+
+    test("apply truthy props", () => {
+      const { container } = render(<Div first third />);
+      expect(container.firstChild.className).toBe("1st 3rd");
+    });
+  });
 });

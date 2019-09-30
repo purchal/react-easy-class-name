@@ -6,6 +6,14 @@ const SKIPPED_DOM_PROPS = ["className"];
 
 const asString = (str, exprs) => {
   return ({ shallowProps, ...props }) => {
+    if (!Array.isArray(str)) {
+      return Object.keys(str)
+        .reduce((acc, key) => {
+          if (props[key]) acc.push(str[key]);
+          return acc;
+        }, [])
+        .join(" ");
+    }
     const interpolated = exprs.map(ex => {
       if (typeof ex === "function") return ex({ ...props, ...shallowProps });
       if (typeof ex === "object")
