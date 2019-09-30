@@ -4,11 +4,19 @@ import domElements from "./domElements";
 const STRINGIFIED_DATA_TYPES = ["boolean", "number"];
 const SKIPPED_DOM_PROPS = ["className"];
 
-const asString = (str, ...exprs) => {
+const asString = (str, exprs) => {
   return ({ shallowProps, ...props }) => {
-    const interpolated = exprs.map(ex =>
-      typeof ex === "function" ? ex({ ...props, ...shallowProps }) : ex
-    );
+    const interpolated = exprs.map(ex => {
+      if (typeof ex === "function") return ex({ ...props, ...shallowProps });
+      if (typeof ex === "object")
+        return Object.keys(ex)
+          .reduce((acc, key) => {
+            if (props[key]) acc.push(ex[key]);
+            return acc;
+          }, [])
+          .join(" ");
+      return ex;
+    });
     const classNames = [...str, ...interpolated];
     if (props.className) classNames.push(props.className);
     return classNames
@@ -19,7 +27,7 @@ const asString = (str, ...exprs) => {
   };
 };
 
-const className = Tag => (str, exprs) => {
+const className = Tag => (str, ...exprs) => {
   const classNameString = asString(str, exprs);
   return ({ shallowProps, ...props }) => {
     const domProps = Object.keys(props).reduce((acc, key) => {

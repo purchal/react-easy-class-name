@@ -6,6 +6,8 @@ describe("className", () => {
   const Div = className.div`
     base
     ${({ conditional }) => conditional && "conditional"}
+    ${({ secondConditional }) => secondConditional && "second-conditional"}
+    ${{ objectKey: "with-object-key", secondObjectKey: "with-2nd-obj-key" }}
   `;
 
   test("apply class name", () => {
@@ -16,6 +18,11 @@ describe("className", () => {
   test("apply conditional class name", () => {
     const { container } = render(<Div conditional />);
     expect(container.firstChild.className).toBe("base conditional");
+  });
+
+  test("apply second conditional class name", () => {
+    const { container } = render(<Div secondConditional />);
+    expect(container.firstChild.className).toBe("base second-conditional");
   });
 
   test("apply additional class name", () => {
@@ -42,5 +49,17 @@ describe("className", () => {
   test("stringify number", () => {
     const { container } = render(<Div number={4.2} />);
     expect(container.firstChild.attributes.number.value).toBe("4.2");
+  });
+
+  test("check object keys", () => {
+    const { container } = render(<Div objectKey secondObjectKey={false} />);
+    expect(container.firstChild.className).toBe("base with-object-key");
+  });
+
+  test("check object keys", () => {
+    const { container } = render(<Div objectKey secondObjectKey />);
+    expect(container.firstChild.className).toBe(
+      "base with-object-key with-2nd-obj-key"
+    );
   });
 });
