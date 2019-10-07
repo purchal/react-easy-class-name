@@ -42,9 +42,11 @@ const className = Tag => (str, ...exprs) => {
     const domProps = Object.keys(props).reduce((acc, key) => {
       if (SKIPPED_DOM_PROPS.includes(key)) return acc;
       const keyToUse = domAttributes.includes(key) ? key : key.toLowerCase();
-      const domValue = STRINGIFIED_DATA_TYPES.includes(typeof props[key])
-        ? props[key].toString()
-        : props[key];
+      const domValue =
+        STRINGIFIED_DATA_TYPES.includes(typeof props[key]) &&
+        !domAttributes.includes(key)
+          ? props[key].toString()
+          : props[key];
       acc[keyToUse] = domValue;
       return acc;
     }, {});

@@ -187,7 +187,7 @@ var className = function className(Tag) {
       var domProps = Object.keys(props).reduce(function (acc, key) {
         if (SKIPPED_DOM_PROPS.includes(key)) return acc;
         var keyToUse = domAttributes.includes(key) ? key : key.toLowerCase();
-        var domValue = STRINGIFIED_DATA_TYPES.includes(_typeof(props[key])) ? props[key].toString() : props[key];
+        var domValue = STRINGIFIED_DATA_TYPES.includes(_typeof(props[key])) && !domAttributes.includes(key) ? props[key].toString() : props[key];
         acc[keyToUse] = domValue;
         return acc;
       }, {});
