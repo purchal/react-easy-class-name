@@ -1,5 +1,19 @@
 import React from 'react';
 
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -126,32 +140,55 @@ function _nonIterableSpread() {
 var domElements = ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "data", "datalist", "dd", "del", "details", "dfn", "dialog", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "marquee", "menu", "menuitem", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr", // SVG
 "circle", "clipPath", "defs", "ellipse", "foreignObject", "g", "image", "line", "linearGradient", "mask", "path", "pattern", "polygon", "polyline", "radialGradient", "rect", "stop", "svg", "text", "tspan"];
 
-var asString = function asString(str) {
-  for (var _len = arguments.length, exprs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    exprs[_key - 1] = arguments[_key];
-  }
+var STRINGIFIED_DATA_TYPES = ["boolean", "number"];
+var SKIPPED_DOM_PROPS = ["className"];
 
+var asString = function asString(str, exprs) {
   return function (_ref) {
     var shallowProps = _ref.shallowProps,
         props = _objectWithoutProperties(_ref, ["shallowProps"]);
 
+    if (!Array.isArray(str)) {
+      return Object.keys(str).reduce(function (acc, key) {
+        if (props[key]) acc.push(str[key]);
+        return acc;
+      }, []).join(" ");
+    }
+
     var interpolated = exprs.map(function (ex) {
-      return typeof ex === "function" ? ex(_objectSpread2({}, props, {}, shallowProps)) : ex;
+      if (typeof ex === "function") return ex(_objectSpread2({}, props, {}, shallowProps));
+      if (_typeof(ex) === "object") return Object.keys(ex).reduce(function (acc, key) {
+        if (props[key]) acc.push(ex[key]);
+        return acc;
+      }, []).join(" ");
+      return ex;
     });
     var classNames = [].concat(_toConsumableArray(str), _toConsumableArray(interpolated));
     if (props.className) classNames.push(props.className);
-    return classNames.join(" ");
+    return classNames.filter(function (str) {
+      return !!str;
+    }).join(" ").replace(/\s+/g, " ").trim();
   };
 };
 
 var className = function className(Tag) {
-  return function (str, exprs) {
+  return function (str) {
+    for (var _len = arguments.length, exprs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      exprs[_key - 1] = arguments[_key];
+    }
+
     var classNameString = asString(str, exprs);
     return function (_ref2) {
       var shallowProps = _ref2.shallowProps,
           props = _objectWithoutProperties(_ref2, ["shallowProps"]);
 
-      return React.createElement(Tag, _extends({}, props, {
+      var domProps = Object.keys(props).reduce(function (acc, key) {
+        if (SKIPPED_DOM_PROPS.includes(key)) return acc;
+        var domValue = STRINGIFIED_DATA_TYPES.includes(_typeof(props[key])) ? props[key].toString() : props[key];
+        acc[key.toLowerCase()] = domValue;
+        return acc;
+      }, {});
+      return React.createElement(Tag, _extends({}, domProps, {
         className: classNameString(_objectSpread2({
           shallowProps: shallowProps
         }, props))
