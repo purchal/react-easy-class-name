@@ -1,4 +1,5 @@
 export default [
+  "onBlur",
   "onChange",
   "onInput",
   "onSubmit",
@@ -42,6 +43,7 @@ export default [
   "contextMenu",
   "crossOrigin",
   "dateTime",
+  "disabled",
   "encType",
   "formAction",
   "formEncType",
