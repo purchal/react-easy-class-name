@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import className from "./index";
 
 describe("with tagged template", () => {
@@ -55,6 +55,7 @@ describe("with tagged template", () => {
       const { container } = render(<Div myProp="my value" />);
       expect(container.firstChild.attributes.myprop.value).toBe("my value");
     });
+
     test("stringify bools", () => {
       const { container } = render(<Div bool />);
       expect(container.firstChild.attributes.bool.value).toBe("true");

@@ -1,4 +1,5 @@
 import React from "react";
+import domAttributes from "./domAttributes";
 import domElements from "./domElements";
 
 const STRINGIFIED_DATA_TYPES = ["boolean", "number"];
@@ -40,10 +41,11 @@ const className = Tag => (str, ...exprs) => {
   return ({ shallowProps, ...props }) => {
     const domProps = Object.keys(props).reduce((acc, key) => {
       if (SKIPPED_DOM_PROPS.includes(key)) return acc;
+      const keyToUse = domAttributes.includes(key) ? key : key.toLowerCase();
       const domValue = STRINGIFIED_DATA_TYPES.includes(typeof props[key])
         ? props[key].toString()
         : props[key];
-      acc[key.toLowerCase()] = domValue;
+      acc[keyToUse] = domValue;
       return acc;
     }, {});
     return (
