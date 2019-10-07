@@ -42,6 +42,7 @@ export default [
   "contentEditable",
   "contextMenu",
   "crossOrigin",
+  "dangerouslySetInnerHTML",
   "dateTime",
   "disabled",
   "encType",
