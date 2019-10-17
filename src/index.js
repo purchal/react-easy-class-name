@@ -50,12 +50,11 @@ const className = Tag => (str, ...exprs) => {
       acc[keyToUse] = domValue;
       return acc;
     }, {});
-    console.log(props);
     return (
       <Tag
         {...domProps}
         ref={props.innerRef}
-        className={classNameString({ shallowProps, ...domProps })}
+        className={classNameString({ shallowProps, ...props })}
       />
     );
   };
