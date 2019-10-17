@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { render, fireEvent } from "@testing-library/react";
 import className from "./index";
 
@@ -73,6 +73,15 @@ describe("with tagged template", () => {
     test("truthy props", () => {
       const { container } = render(<Div first third />);
       expect(container.firstChild.className).toBe("1st 3rd");
+    });
+  });
+
+  describe("innerRef", () => {
+    const Div = className.div({ first: "1st" });
+
+    test.only("truthy props", () => {
+      const { container } = render(<Div first fooBar="foobar" />);
+      expect(container.firstChild.className).toBe("1st");
     });
   });
 });

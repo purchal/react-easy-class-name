@@ -191,10 +191,12 @@ var className = function className(Tag) {
         acc[keyToUse] = domValue;
         return acc;
       }, {});
+      console.log(props);
       return React.createElement(Tag, _extends({}, domProps, {
+        ref: props.innerRef,
         className: classNameString(_objectSpread2({
           shallowProps: shallowProps
-        }, props))
+        }, domProps))
       }));
     };
   };
