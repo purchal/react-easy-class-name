@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import className from "./index";
 
 describe("with tagged template", () => {
@@ -10,7 +10,14 @@ describe("with tagged template", () => {
     ${{ objectKey: "with-object-key", secondObjectKey: "with-2nd-obj-key" }}
   `;
 
-  test("retular string", () => {
+  test.only("something", () => {
+    const Comp = ({ aProp }) => <div>{aProp}</div>;
+    const Classed = className(Comp)``;
+    const { container, debug } = render(<Classed aProp="my-prop" />);
+    expect(container.firstChild.innerHTML).toBe("my-prop");
+  });
+
+  test("regular string", () => {
     const { container } = render(<Div />);
     expect(container.firstChild.className).toBe("base");
   });
@@ -79,7 +86,7 @@ describe("with tagged template", () => {
   describe("innerRef", () => {
     const Div = className.div({ first: "1st" });
 
-    test.only("truthy props", () => {
+    test("truthy props", () => {
       const { container } = render(<Div first fooBar="foobar" />);
       expect(container.firstChild.className).toBe("1st");
     });

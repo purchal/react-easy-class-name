@@ -1,6 +1,6 @@
 {
   "name": "react-easy-class-name",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "main": "dist/bundle.js",
   "scripts": {
     "test": "jest",
@@ -23,6 +23,7 @@
     "@testing-library/react": "^9.2.0",
     "babel-loader": "^8.0.6",
     "jest": "^24.9.0",
+    "rollup": "^1.27.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",

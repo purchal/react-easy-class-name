@@ -175,6 +175,10 @@ var asString = function asString(str, exprs) {
 
 var className = function className(Tag) {
   return function (str) {
+    var shouldDowncase = function shouldDowncase(key) {
+      return domAttributes.includes(key) && typeof key !== "function";
+    };
+
     for (var _len = arguments.length, exprs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       exprs[_key - 1] = arguments[_key];
     }
@@ -186,7 +190,7 @@ var className = function className(Tag) {
 
       var domProps = Object.keys(props).reduce(function (acc, key) {
         if (SKIPPED_DOM_PROPS.includes(key)) return acc;
-        var keyToUse = domAttributes.includes(key) ? key : key.toLowerCase();
+        var keyToUse = shouldDowncase(key) ? key.toLowerCase() : key;
         var domValue = STRINGIFIED_DATA_TYPES.includes(_typeof(props[key])) && !domAttributes.includes(key) ? props[key].toString() : props[key];
         acc[keyToUse] = domValue;
         return acc;
