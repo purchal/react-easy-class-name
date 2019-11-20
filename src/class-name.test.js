@@ -10,7 +10,7 @@ describe("with tagged template", () => {
     ${{ objectKey: "with-object-key", secondObjectKey: "with-2nd-obj-key" }}
   `;
 
-  test.only("something", () => {
+  test("doesn't downcase props for components", () => {
     const Comp = ({ aProp }) => <div>{aProp}</div>;
     const Classed = className(Comp)``;
     const { container, debug } = render(<Classed aProp="my-prop" />);

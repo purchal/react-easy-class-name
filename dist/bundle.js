@@ -176,7 +176,7 @@ var asString = function asString(str, exprs) {
 var className = function className(Tag) {
   return function (str) {
     var shouldDowncase = function shouldDowncase(key) {
-      return domAttributes.includes(key) && typeof key !== "function";
+      return !domAttributes.includes(key) && typeof Tag !== "function";
     };
 
     for (var _len = arguments.length, exprs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {

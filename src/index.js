@@ -38,7 +38,7 @@ const asString = (str, exprs) => {
 
 const className = Tag => (str, ...exprs) => {
   const shouldDowncase = key =>
-    domAttributes.includes(key) && typeof key !== "function";
+    !domAttributes.includes(key) && typeof Tag !== "function";
   const classNameString = asString(str, exprs);
   return ({ shallowProps, ...props }) => {
     const domProps = Object.keys(props).reduce((acc, key) => {
