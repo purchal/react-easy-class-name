@@ -91,4 +91,14 @@ describe("with tagged template", () => {
       expect(container.firstChild.className).toBe("1st");
     });
   });
+
+  describe("forwarded props", () => {
+    const Div = className.div({ first: "1st" });
+
+    test("forward props", () => {
+      const Button = className("button", { type: "button" })`my-class`;
+      const { container } = render(<Button />);
+      expect(container.firstChild.type).toBe("button");
+    });
+  });
 });

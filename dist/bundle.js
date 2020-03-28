@@ -174,6 +174,7 @@ var asString = function asString(str, exprs) {
 };
 
 var className = function className(Tag) {
+  var forwardProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (str) {
     var shouldDowncase = function shouldDowncase(key) {
       return !domAttributes.includes(key) && typeof Tag !== "function";
@@ -195,7 +196,7 @@ var className = function className(Tag) {
         acc[keyToUse] = domValue;
         return acc;
       }, {});
-      return React.createElement(Tag, _extends({}, domProps, {
+      return React.createElement(Tag, _extends({}, domProps, forwardProps, {
         ref: props.innerRef,
         className: classNameString(_objectSpread2({
           shallowProps: shallowProps

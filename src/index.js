@@ -36,7 +36,7 @@ const asString = (str, exprs) => {
   };
 };
 
-const className = Tag => (str, ...exprs) => {
+const className = (Tag, forwardProps = {}) => (str, ...exprs) => {
   const shouldDowncase = key =>
     !domAttributes.includes(key) && typeof Tag !== "function";
   const classNameString = asString(str, exprs);
@@ -55,6 +55,7 @@ const className = Tag => (str, ...exprs) => {
     return (
       <Tag
         {...domProps}
+        {...forwardProps}
         ref={props.innerRef}
         className={classNameString({ shallowProps, ...props })}
       />
