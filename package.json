@@ -1,6 +1,6 @@
 {
   "name": "react-easy-class-name",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "dist/bundle.js",
   "scripts": {
     "test": "jest",

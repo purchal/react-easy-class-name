@@ -15,7 +15,7 @@ const asString = (str, exprs) => {
         }, [])
         .join(" ");
     }
-    const interpolated = exprs.map(ex => {
+    const interpolated = exprs.map((ex) => {
       if (typeof ex === "function") return ex({ ...props, ...shallowProps });
       if (typeof ex === "object")
         return Object.keys(ex)
@@ -29,7 +29,7 @@ const asString = (str, exprs) => {
     const classNames = [...str, ...interpolated];
     if (props.className) classNames.push(props.className);
     return classNames
-      .filter(str => !!str)
+      .filter((str) => !!str)
       .join(" ")
       .replace(/\s+/g, " ")
       .trim();
@@ -37,7 +37,7 @@ const asString = (str, exprs) => {
 };
 
 const className = (Tag, forwardProps = {}) => (str, ...exprs) => {
-  const shouldDowncase = key =>
+  const shouldDowncase = (key) =>
     !domAttributes.includes(key) && typeof Tag !== "function";
   const classNameString = asString(str, exprs);
   return ({ shallowProps, ...props }) => {
@@ -63,8 +63,8 @@ const className = (Tag, forwardProps = {}) => (str, ...exprs) => {
   };
 };
 
-domElements.forEach(el => {
+domElements.forEach((el) => {
   className[el] = className(el);
 });
 
-export { className as default, asString };
+export { className as default, asString, className };

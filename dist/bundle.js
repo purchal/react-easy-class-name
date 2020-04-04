@@ -211,4 +211,4 @@ domElements.forEach(function (el) {
 });
 
 export default className;
-export { asString };
+export { asString, className };
