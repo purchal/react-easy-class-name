@@ -1,5 +1,5 @@
 {
-  "name": "react-easy-class-name",
+  "name": "@purchal/react-easy-class-name",
   "version": "0.0.23",
   "main": "dist/bundle.js",
   "type": "module",
