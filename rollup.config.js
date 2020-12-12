@@ -8,7 +8,7 @@ export default [
     output: {
       file: "./dist/bundle.js",
       name: "bundle",
-      format: "esm"
+      format: "umd"
     },
     plugins: [
       // replace({
